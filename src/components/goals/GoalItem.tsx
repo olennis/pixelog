@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { GoalProgress } from './GoalProgress';
 import type { Goal } from '@/types';
 import { useUIStore } from '@/stores/uiStore';
+import { useTodoStore } from '@/stores/todoStore';
 import { Pencil } from 'lucide-react';
 
 interface GoalItemProps {
@@ -10,7 +11,13 @@ interface GoalItemProps {
 
 export function GoalItem({ goal }: GoalItemProps) {
   const { selectedGoalId, setSelectedGoal, openGoalModal } = useUIStore();
+  const { todos } = useTodoStore();
   const isSelected = selectedGoalId === goal.id;
+
+  const todoSum = todos
+    .filter((t) => t.goalId === goal.id)
+    .reduce((sum, t) => sum + (t.value || 0), 0);
+  const currentValue = todoSum || goal.currentValue;
 
   const handleClick = () => {
     if (isSelected) {
@@ -52,7 +59,7 @@ export function GoalItem({ goal }: GoalItemProps) {
       {/* 프로그레스 */}
       {goal.targetValue && (
         <GoalProgress
-          current={goal.currentValue}
+          current={currentValue}
           target={goal.targetValue}
           unit={goal.unit}
           color={goal.color}

@@ -3,7 +3,7 @@ import { MainContent } from './MainContent';
 
 export function Layout() {
   return (
-    <div className="h-full w-full flex bg-background pt-4 pb-6">
+    <div className="h-screen w-full flex bg-background">
       <Sidebar />
       <MainContent />
     </div>

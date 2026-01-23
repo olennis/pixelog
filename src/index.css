@@ -37,6 +37,17 @@
   }
 }
 
+/* number input 화살표 제거 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* 스크롤바 스타일 */
 ::-webkit-scrollbar {
   width: 8px;
@@ -64,6 +75,17 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* 캘린더 스크롤 컨테이너 - 스크롤바를 overlay로 표시 */
+.year-grid-container {
+  overflow-x: overlay;
+}
+
+@supports not (overflow-x: overlay) {
+  .year-grid-container {
+    overflow-x: auto;
+  }
+}
+
 /* 캘린더 테이블 전체 화면 채우기 */
 table {
   height: 100%;
@@ -71,7 +93,7 @@ table {
 
 tbody {
   display: block;
-  height: calc(100% - 40px); /* thead 높이 제외 */
+  height: calc(100% - 33px); /* thead 높이 제외 */
   overflow: hidden;
 }
 

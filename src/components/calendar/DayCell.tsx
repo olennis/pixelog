@@ -19,8 +19,7 @@ export function DayCell({
   goals,
   selectedGoalId,
 }: DayCellProps) {
-  const { openTodoModal, setSelectedDate, zoomLevel } = useUIStore();
-  const cellWidth = Math.round(120 * zoomLevel);
+  const { openTodoModal, setSelectedDate } = useUIStore();
 
   const filteredTodos = selectedGoalId
     ? todos.filter((t) => t.goalId === selectedGoalId)
@@ -36,7 +35,7 @@ export function DayCell({
     return (
       <td
         className="h-full p-1 bg-muted/10 border-r border-border/20"
-        style={{ minWidth: cellWidth }}
+        style={{ minWidth: 'var(--cell-width)' }}
       >
         {/* 존재하지 않는 날짜 */}
       </td>
@@ -44,6 +43,7 @@ export function DayCell({
   }
 
   const isTodayCell = date ? isToday(date) : false;
+  const maxItems = 3;
 
   return (
     <td
@@ -52,12 +52,12 @@ export function DayCell({
         'h-full p-1.5 align-top cursor-pointer transition-colors',
         'border-r border-border/20',
         'hover:bg-primary/5',
-        isTodayCell && 'bg-primary/10 ring-2 ring-primary/50 ring-inset'
+        isTodayCell && 'bg-primary/10 ring-2 ring-primary/50 ring-inset',
       )}
-      style={{ minWidth: cellWidth }}
+      style={{ minWidth: 'var(--cell-width)', maxWidth: 'var(--cell-width)' }}
     >
-      <div className="flex flex-col gap-0.5 overflow-hidden h-full">
-        {filteredTodos.slice(0, 3).map((todo) => {
+      <div className="flex flex-col gap-0.5 overflow-hidden h-full w-full">
+        {filteredTodos.slice(0, maxItems).map((todo) => {
           const goal = goals.find((g) => g.id === todo.goalId);
           return (
             <TodoEntry

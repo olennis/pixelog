@@ -13,7 +13,7 @@ export function GoalList() {
   return (
     <div className="flex flex-col h-full">
       {/* 헤더 */}
-      <div className="flex items-center justify-between p-3 border-b border-border">
+      <div className="flex items-center justify-between px-3 h-[60px] border-b border-border">
         <h2 className="text-sm font-semibold text-muted-foreground">목표</h2>
         <Button
           variant="ghost"

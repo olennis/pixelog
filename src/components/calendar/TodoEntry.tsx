@@ -20,17 +20,13 @@ export function TodoEntry({
   return (
     <div
       className={cn(
-        'flex items-center gap-1.5 text-xs truncate',
+        'text-xs truncate rounded px-1',
         completed && 'line-through opacity-50'
       )}
+      style={{ backgroundColor: `${color}30`, color }}
+      title={displayText}
     >
-      <span
-        className="w-2 h-2 rounded-full flex-shrink-0"
-        style={{ backgroundColor: color }}
-      />
-      <span className="truncate" title={displayText}>
-        {displayText}
-      </span>
+      {displayText}
     </div>
   );
 }

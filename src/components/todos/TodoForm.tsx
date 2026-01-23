@@ -12,7 +12,7 @@ interface TodoFormProps {
 
 export function TodoForm({ date }: TodoFormProps) {
   const { addTodo } = useTodoStore();
-  const { goals, updateProgress } = useGoalStore();
+  const { goals } = useGoalStore();
   const { currentYear } = useUIStore();
 
   const yearGoals = goals.filter((g) => g.year === currentYear);
@@ -36,11 +36,6 @@ export function TodoForm({ date }: TodoFormProps) {
       value: numValue,
       completed: false,
     });
-
-    // 목표 진행률 업데이트
-    if (numValue && selectedGoal) {
-      updateProgress(selectedGoalId, numValue);
-    }
 
     setContent('');
     setValue('');

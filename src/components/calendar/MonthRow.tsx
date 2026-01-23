@@ -21,9 +21,9 @@ export function MonthRow({
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   return (
-    <tr className="border-b border-border/50 h-[calc(100%/12)]">
+    <tr className="border-b border-border/50">
       {/* 월 라벨 */}
-      <td className="sticky left-0 z-10 bg-background w-[100px] p-2 font-medium text-xs border-r border-border align-middle">
+      <td className="sticky left-0 z-10 bg-background min-w-[60px] max-w-[60px] w-[60px] px-1 py-0 font-medium text-xs border-r border-border align-middle whitespace-nowrap text-center">
         {getMonthName(monthIndex)}
       </td>
 
