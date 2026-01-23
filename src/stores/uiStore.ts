@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+type Theme = 'light' | 'dark';
+
 interface UIStore {
   selectedDate: string | null;
   selectedGoalId: string | null;
@@ -9,6 +11,7 @@ interface UIStore {
   editingGoalId: string | null;
   zoomLevel: number;
   sidebarWidth: number;
+  theme: Theme;
 
   setSelectedDate: (date: string | null) => void;
   setSelectedGoal: (goalId: string | null) => void;
@@ -21,6 +24,7 @@ interface UIStore {
   zoomIn: () => void;
   zoomOut: () => void;
   setSidebarWidth: (width: number) => void;
+  toggleTheme: () => void;
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -32,6 +36,7 @@ export const useUIStore = create<UIStore>((set) => ({
   editingGoalId: null,
   zoomLevel: 1,
   sidebarWidth: 180,
+  theme: (localStorage.getItem('pixelog-theme') as Theme) || 'dark',
 
   setSelectedDate: (date) => set({ selectedDate: date }),
 
@@ -72,4 +77,12 @@ export const useUIStore = create<UIStore>((set) => ({
     set((state) => ({ zoomLevel: Math.max(0.5, state.zoomLevel - 0.25) })),
 
   setSidebarWidth: (width) => set({ sidebarWidth: Math.max(120, Math.min(400, width)) }),
+
+  toggleTheme: () =>
+    set((state) => {
+      const next = state.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.classList.toggle('dark', next === 'dark');
+      localStorage.setItem('pixelog-theme', next);
+      return { theme: next };
+    }),
 }));

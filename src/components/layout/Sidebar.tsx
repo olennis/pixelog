@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
 import { GoalList } from '@/components/goals/GoalList';
 import { useUIStore } from '@/stores/uiStore';
 
 export function Sidebar() {
-  const { sidebarWidth, setSidebarWidth } = useUIStore();
+  const { sidebarWidth, setSidebarWidth, theme, toggleTheme } = useUIStore();
   const [isResizing, setIsResizing] = useState(false);
 
   const handleMouseDown = useCallback(() => {
@@ -44,6 +45,15 @@ export function Sidebar() {
       style={{ width: sidebarWidth }}
     >
       <GoalList />
+      <div className="p-2 border-t border-border">
+        <button
+          onClick={toggleTheme}
+          className="p-1.5 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+          title={theme === 'dark' ? '라이트 모드' : '다크 모드'}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+      </div>
       <div
         className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/50 transition-colors"
         onMouseDown={handleMouseDown}

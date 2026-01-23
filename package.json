@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "zip": "pnpm build && cd dist && zip -r ../pixelog.zip . && cd ..",
     "preview": "vite preview"
   },
   "dependencies": {
