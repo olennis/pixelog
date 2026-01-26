@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { ColorPicker } from './ColorPicker';
 import { useGoalStore } from '@/stores/goalStore';
 import { useTodoStore } from '@/stores/todoStore';
@@ -26,6 +27,7 @@ export function GoalForm() {
   const [color, setColor] = useState(DEFAULT_COLOR);
   const [targetValue, setTargetValue] = useState('');
   const [unit, setUnit] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     if (editingGoal) {
@@ -68,7 +70,11 @@ export function GoalForm() {
   };
 
   const handleDelete = () => {
-    if (editingGoal && confirm('이 목표를 삭제하시겠습니까? 관련 투두도 함께 삭제됩니다.')) {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (editingGoal) {
       deleteTodosByGoal(editingGoal.id);
       deleteGoal(editingGoal.id);
       closeGoalModal();
@@ -76,7 +82,8 @@ export function GoalForm() {
   };
 
   return (
-    <Dialog open={isGoalModalOpen} onOpenChange={(open) => !open && closeGoalModal()}>
+    <>
+      <Dialog open={isGoalModalOpen} onOpenChange={(open) => !open && closeGoalModal()}>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle>{editingGoal ? '목표 수정' : '새 목표 추가'}</DialogTitle>
@@ -143,6 +150,18 @@ export function GoalForm() {
           </DialogFooter>
         </form>
       </DialogContent>
-    </Dialog>
+      </Dialog>
+
+      <ConfirmDialog
+        open={showDeleteConfirm}
+        onOpenChange={setShowDeleteConfirm}
+        title="목표 삭제"
+        description="이 목표를 삭제하시겠습니까? 관련 투두도 함께 삭제됩니다."
+        confirmLabel="삭제"
+        cancelLabel="취소"
+        onConfirm={confirmDelete}
+        variant="destructive"
+      />
+    </>
   );
 }

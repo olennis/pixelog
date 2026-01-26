@@ -68,13 +68,13 @@ export const useUIStore = create<UIStore>((set) => ({
       editingGoalId: null,
     }),
 
-  setZoomLevel: (level) => set({ zoomLevel: Math.max(0.5, Math.min(3, level)) }),
+  setZoomLevel: (level) => set({ zoomLevel: Math.max(1, Math.min(3, level)) }),
 
   zoomIn: () =>
     set((state) => ({ zoomLevel: Math.min(3, state.zoomLevel + 0.25) })),
 
   zoomOut: () =>
-    set((state) => ({ zoomLevel: Math.max(0.5, state.zoomLevel - 0.25) })),
+    set((state) => ({ zoomLevel: Math.max(1, state.zoomLevel - 0.25) })),
 
   setSidebarWidth: (width) => set({ sidebarWidth: Math.max(120, Math.min(400, width)) }),
 
