@@ -21,6 +21,15 @@ export interface Todo {
   createdAt: string;
 }
 
+export interface WeekTask {
+  id: string;
+  content: string;
+  date: string | null; // null = 미배정, "YYYY-MM-DD" = 배정됨
+  goalId: string | null; // null = 독립 태스크, 값 있으면 연간 캘린더와 동기화
+  completed: boolean;
+  createdAt: string;
+}
+
 export interface UIState {
   selectedDate: string | null;
   selectedGoalId: string | null;

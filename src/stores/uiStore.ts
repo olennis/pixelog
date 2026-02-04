@@ -1,6 +1,8 @@
 import { create } from 'zustand';
+import { getMonday, parseDate } from '@/utils/date';
 
 type Theme = 'light' | 'dark';
+type ViewMode = 'year' | 'week';
 
 interface UIStore {
   selectedDate: string | null;
@@ -12,6 +14,8 @@ interface UIStore {
   zoomLevel: number;
   sidebarWidth: number;
   theme: Theme;
+  viewMode: ViewMode;
+  currentWeekStart: string;
 
   setSelectedDate: (date: string | null) => void;
   setSelectedGoal: (goalId: string | null) => void;
@@ -25,6 +29,9 @@ interface UIStore {
   zoomOut: () => void;
   setSidebarWidth: (width: number) => void;
   toggleTheme: () => void;
+  setViewMode: (mode: ViewMode) => void;
+  prevWeek: () => void;
+  nextWeek: () => void;
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -37,6 +44,8 @@ export const useUIStore = create<UIStore>((set) => ({
   zoomLevel: 1,
   sidebarWidth: 180,
   theme: (localStorage.getItem('pixelog-theme') as Theme) || 'dark',
+  viewMode: 'year',
+  currentWeekStart: getMonday(new Date()),
 
   setSelectedDate: (date) => set({ selectedDate: date }),
 
@@ -84,5 +93,21 @@ export const useUIStore = create<UIStore>((set) => ({
       document.documentElement.classList.toggle('dark', next === 'dark');
       localStorage.setItem('pixelog-theme', next);
       return { theme: next };
+    }),
+
+  setViewMode: (mode) => set({ viewMode: mode }),
+
+  prevWeek: () =>
+    set((state) => {
+      const { year, month, day } = parseDate(state.currentWeekStart);
+      const d = new Date(year, month - 1, day - 7);
+      return { currentWeekStart: getMonday(d) };
+    }),
+
+  nextWeek: () =>
+    set((state) => {
+      const { year, month, day } = parseDate(state.currentWeekStart);
+      const d = new Date(year, month - 1, day + 7);
+      return { currentWeekStart: getMonday(d) };
     }),
 }));
