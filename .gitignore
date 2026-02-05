@@ -54,3 +54,6 @@ coverage/
 
 #claude
 .omc/
+
+#zip
+*.zip
